@@ -1,0 +1,14 @@
+import * as React from "react";
+const SvgComponent = (
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
+) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 176" {...props}>
+    <circle cx={88} cy={88} r={88} fill="red" />
+    <path
+      fill="#FFF"
+      d="M88 46c23.1 0 42 18.8 42 42s-18.8 42-42 42-42-18.8-42-42 18.9-42 42-42m0-4c-25.4 0-46 20.6-46 46s20.6 46 46 46 46-20.6 46-46-20.6-46-46-46z"
+    />
+    <path fill="#FFF" d="m72 111 39-24-39-22z" />
+  </svg>
+);
+export default SvgComponent;
