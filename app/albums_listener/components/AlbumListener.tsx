@@ -312,7 +312,8 @@ const AlbumListener = () => {
                   className={
                     (currentSong && currentSong.id === song.id
                       ? "text-shadow-gray-600"
-                      : "text-gray-500") + " cursor-pointer"
+                      : "text-gray-500  hover:text-gray-400") +
+                    " cursor-pointer"
                   }
                   title={
                     currentSong && currentSong.id === song.id
