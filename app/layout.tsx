@@ -13,8 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Reoctus5",
-  description: "Reoctus5 website",
+  title: "П'ятий Реоктус",
 };
 
 export default function RootLayout({
