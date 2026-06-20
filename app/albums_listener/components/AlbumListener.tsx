@@ -1,9 +1,9 @@
 "use client";
 
-import Pause from "@/app/icons/Pause";
-import PlayIcon from "@/app/icons/Play";
-import Spotify from "@/app/icons/Spotify";
-import YoutubeMusic from "@/app/icons/YoutubeMusic";
+import Pause from "@/app/icons/PauseIcon";
+import PlayIcon from "@/app/icons/PlayIcon";
+import Spotify from "@/app/icons/SpotifyIcon";
+import YoutubeMusic from "@/app/icons/YoutubeMusicIcon";
 import React from "react";
 import { RefObject, useEffect, useRef, useState } from "react";
 import YouTube, { YouTubeEvent, YouTubePlayer } from "react-youtube";
