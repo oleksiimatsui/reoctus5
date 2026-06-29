@@ -27,6 +27,6 @@ body {
 
 .bg {
   background-image: url(/sky.jpg);
-  background-color: rgba(0, 0, 0, 0.7);
-  background-blend-mode: darken;
+  background-color: rgb(88, 88, 88);
+  background-blend-mode: soft-light;
 }
