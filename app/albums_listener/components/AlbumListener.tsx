@@ -116,14 +116,14 @@ const AlbumListener = () => {
   const timeOfLastResume = useRef(0);
   const playedTimeBeforeResume = useRef(0);
 
-  const play = async (album: number, song: number, currentTime: number) => {
+  const play = async (album: number, song: number) => {
     if (album == albumIndex && song == songIndex) {
       if (isPlaying == false) {
         resume();
       }
       return;
     }
-    pause(currentTime);
+    pauseButtonClicked();
 
     setIsPlayingLoading(true);
     setSongIndex(song);
@@ -146,41 +146,42 @@ const AlbumListener = () => {
       setCurrentTimestamp(playedTimeBeforeResume.current + timePassed);
     }, delay);
   };
-  const onPause = (currentTime: number) => {
+
+  const stopTimestampLoop = () => {
     if (interval.current) {
       clearInterval(interval.current);
       interval.current = null;
     }
+  };
 
+  const onPause = (currentTime: number) => {
+    stopTimestampLoop();
     const elapsed =
       playedTimeBeforeResume.current + (currentTime - timeOfLastResume.current);
     setCurrentTimestamp(elapsed);
-
     setIsPlaying(false);
   };
 
-  const pause = (currentTime: number) => {
+  const pauseButtonClicked = () => {
     playerRef.current?.pauseVideo();
   };
 
   const startNext = () => {
     if (albumIndex == null || songIndex == null) return;
     if (songIndex != albums[albumIndex].songs.length - 1) {
-      play(albumIndex, songIndex + 1, Date.now());
+      play(albumIndex, songIndex + 1);
     } else {
       setAlbumIndex(null);
       setSongIndex(null);
     }
   };
 
-  const sliderClicked = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    currentTime: number,
-  ) => {
+  const sliderClicked = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const wasPlaying: boolean = isPlaying;
     if (wasPlaying) {
-      pause(currentTime);
+      stopTimestampLoop();
     }
+
     const ref = e.currentTarget as HTMLDivElement;
     const rect = ref.getBoundingClientRect();
     const relation = (e.clientX - rect.left) / ref.scrollWidth;
@@ -191,9 +192,9 @@ const AlbumListener = () => {
   };
 
   return (
-    <div className="w-full max-w-120 min-w-0 p-2">
+    <div className="w-full max-w-120 min-w-0">
       {currentSong != null && albumIndex != null && (
-        <div className="shadow-2xl flex flex-col bg-gray-950 p-3 rounded-lg mb-2">
+        <div className="shadow-2xl flex flex-col bg-neutral-950 p-3 rounded-lg mb-2">
           <div className="flex items-center gap-2">
             <div className="h-10 pl-10 relative">
               <div
@@ -207,8 +208,8 @@ const AlbumListener = () => {
               ></div>
             </div>
             <div className="flex flex-col ">
-              <div>{currentSong.title}</div>
-              <div className="text-sm text-gray-400">
+              <div className="text-neutral-200">{currentSong.title}</div>
+              <div className="text-sm text-neutral-400">
                 {albums[albumIndex]?.title}
               </div>
             </div>
@@ -217,14 +218,14 @@ const AlbumListener = () => {
                 <div className=" animate-[spin_1s_linear_infinite]  w-10 h-10 bg-[url(/sun.png)] bg-contain"></div>
               ) : isPlaying ? (
                 <button
-                  className="hover:bg-gray-700 p-2 rounded-full"
-                  onClick={() => pause(Date.now())}
+                  className="hover:bg-neutral-700 p-2 rounded-full"
+                  onClick={() => pauseButtonClicked()}
                 >
                   <Pause></Pause>
                 </button>
               ) : (
                 <button
-                  className="hover:bg-gray-700 p-2  rounded-full"
+                  className="hover:bg-neutral-700 p-2  rounded-full"
                   onClick={resume}
                 >
                   <PlayIcon></PlayIcon>
@@ -235,9 +236,9 @@ const AlbumListener = () => {
 
           <div
             className=" mx-1 py-4 -mb-2 cursor-pointer"
-            onClick={(event) => sliderClicked(event, Date.now())}
+            onClick={(event) => sliderClicked(event)}
           >
-            <div className="bg-gray-900 w-full">
+            <div className="bg-neutral-900 w-full">
               <div
                 className={`bg-white h-1`}
                 style={{ width: `${currentPercentage}%` }}
@@ -264,7 +265,7 @@ const AlbumListener = () => {
 
       {albums.map((album, albumIndex) => (
         <div className="flex shadow-2xl" key={album.id}>
-          <div className="  flex grow shrink bg-gray-950 flex-col  rounded-s-lg">
+          <div className="  flex grow shrink bg-neutral-950 flex-col  rounded-s-lg">
             <div className="w-full max-w-40 min-w-0 mx-auto mt-4 mb-4">
               <div className="relative shrink" style={{ padding: "50%" }}>
                 <div className={`absolute flex w-full h-full top-0 left-0`}>
@@ -277,11 +278,11 @@ const AlbumListener = () => {
                 </div>
               </div>
             </div>
-            <h4 className="mb-4 text-center">{album.title}</h4>
+            <h4 className="mb-4 text-center text-neutral-200">{album.title}</h4>
             <div className="flex flex-col gap-2 mb-4 px-4">
               <button
-                onClick={() => play(0, 0, Date.now())}
-                className="flex items-center gap-2 rounded-2xl bg-gray-800 text-gray-400 hover:text-gray-300 hover:bg-gray-700 py-1 px-4"
+                onClick={() => play(0, 0)}
+                className="flex items-center gap-2 rounded-2xl bg-neutral-800 text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 py-1 px-4"
               >
                 <div className="w-[20px] h-[20px] bg-[url(/sun.png)] bg-contain"></div>
                 Слухати тут
@@ -293,7 +294,7 @@ const AlbumListener = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-2xl bg-gray-800 text-gray-400 hover:text-gray-300 hover:bg-gray-700 py-1 px-4"
+                  className="flex items-center gap-2 rounded-2xl bg-neutral-800 text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 py-1 px-4"
                 >
                   {link.icon == LinkType.youtubeMusic && (
                     <YoutubeMusic width={20}></YoutubeMusic>
@@ -307,15 +308,15 @@ const AlbumListener = () => {
               ))}
             </div>
           </div>
-          <div className=" shadow-[inset_12px_0_15px_-4px_rgba(0,0,0,0.5)] flex flex-col bg-gray-900  py-4 pl-4 pr-8 rounded-e-lg">
+          <div className=" shadow-[inset_12px_0_15px_-4px_rgba(0,0,0,0.5)] flex flex-col bg-neutral-900  py-4 pl-4 pr-8 rounded-e-lg">
             {album.songs.map((song, songIndex) => (
               <div className="flex gap-2" key={song.id}>
                 <div
-                  onClick={() => play(albumIndex!, songIndex!, Date.now())}
+                  onClick={() => play(albumIndex!, songIndex!)}
                   className={
                     (currentSong && currentSong.id === song.id
-                      ? "text-shadow-gray-600"
-                      : "text-gray-500  hover:text-gray-400") +
+                      ? "text-neutral-200"
+                      : "text-neutral-500  hover:text-neutral-400") +
                     " cursor-pointer"
                   }
                   title={
