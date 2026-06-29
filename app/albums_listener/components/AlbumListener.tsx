@@ -146,8 +146,7 @@ const AlbumListener = () => {
       setCurrentTimestamp(playedTimeBeforeResume.current + timePassed);
     }, delay);
   };
-
-  const pause = (currentTime: number) => {
+  const onPause = (currentTime: number) => {
     if (interval.current) {
       clearInterval(interval.current);
       interval.current = null;
@@ -157,8 +156,11 @@ const AlbumListener = () => {
       playedTimeBeforeResume.current + (currentTime - timeOfLastResume.current);
     setCurrentTimestamp(elapsed);
 
-    playerRef.current?.pauseVideo();
     setIsPlaying(false);
+  };
+
+  const pause = (currentTime: number) => {
+    playerRef.current?.pauseVideo();
   };
 
   const startNext = () => {
@@ -250,6 +252,7 @@ const AlbumListener = () => {
         videoId={currentSong?.url}
         onReady={(event) => onReady(event)}
         onPlay={(event) => onPlay(event)}
+        onPause={(event) => onPause(Date.now())}
         onEnd={(event) => startNext()}
         opts={{
           playerVars: {
