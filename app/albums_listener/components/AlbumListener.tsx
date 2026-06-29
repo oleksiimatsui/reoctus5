@@ -136,12 +136,13 @@ const AlbumListener = () => {
       }
       return;
     }
-    pauseButtonClicked();
+    stopTimestampLoop();
+    setCurrentTimestamp(0);
+    setIsPlaying(false);
 
     setIsPlayingLoading(true);
     setSongIndex(song);
     setAlbumIndex(album);
-    setCurrentTimestamp(0);
   };
   const onPlay = (event: YouTubeEvent<number>) => {
     setIsPlayingLoading(false);
