@@ -163,7 +163,7 @@ const AlbumListener = () => {
 
   const startNext = () => {
     if (albumIndex == null || songIndex == null) return;
-    if (songIndex != albums[albumIndex].songs.length - 2) {
+    if (songIndex != albums[albumIndex].songs.length - 1) {
       play(albumIndex, songIndex + 1, Date.now());
     } else {
       setAlbumIndex(null);
