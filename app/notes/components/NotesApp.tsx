@@ -77,7 +77,7 @@ export default function NotesApp() {
   }
 
   return (
-    <div className="bg-gray-900/10 p-4 w-full h-full flex flex-col">
+    <div className="bg-neutral-900/10 p-4 w-full h-full flex flex-col">
       <div className="grow overflow-y-auto">
         {loading ? (
           <p>Loading notes…</p>
@@ -98,7 +98,7 @@ export default function NotesApp() {
         <div className="flex gap-2 ">
           <textarea
             maxLength={100}
-            className="grow resize-none rounded-2xl bg-gray-900/10 px-4 py-3 outline-none scrollbar-black"
+            className="grow resize-none rounded-2xl bg-neutral-900/10 px-4 py-3 outline-none scrollbar-black"
             value={content}
             onChange={(event) => setContent(event.target.value)}
             placeholder="Write your note here"

@@ -4,11 +4,13 @@ import Pause from "@/app/icons/PauseIcon";
 import PlayIcon from "@/app/icons/PlayIcon";
 import Spotify from "@/app/icons/SpotifyIcon";
 import YoutubeMusic from "@/app/icons/YoutubeMusicIcon";
+import YoutubeIcon from "@/app/icons/YoutubeIcon";
 import React from "react";
 import { RefObject, useEffect, useRef, useState } from "react";
 import YouTube, { YouTubeEvent, YouTubePlayer } from "react-youtube";
 
 enum LinkType {
+  youtube,
   youtubeMusic,
   spotify,
 }
@@ -19,6 +21,14 @@ interface ListenLink {
 }
 
 class YouTubeLink implements ListenLink {
+  url: string;
+  icon: LinkType;
+  constructor(url: string) {
+    this.url = url;
+    this.icon = LinkType.youtube;
+  }
+}
+class YouTubeMusicLink implements ListenLink {
   url: string;
   icon: LinkType;
   constructor(url: string) {
@@ -69,6 +79,9 @@ const AlbumListener = () => {
           ],
           listenLinks: [
             new YouTubeLink(
+              "https://youtube.com/playlist?list=PLOw4mP1YU-8AGt3cZ4MOjBMfZ02uSRVxt&si=fsvP-ZFlhr-htkRZ",
+            ),
+            new YouTubeMusicLink(
               "https://music.youtube.com/playlist?list=OLAK5uy_mVX8EiwW8lD9HldIIgXxay-JuZm6aq4To",
             ),
             new SpotifyLink(
@@ -167,6 +180,7 @@ const AlbumListener = () => {
   };
 
   const startNext = () => {
+    stopTimestampLoop();
     if (albumIndex == null || songIndex == null) return;
     if (songIndex != albums[albumIndex].songs.length - 1) {
       play(albumIndex, songIndex + 1);
@@ -296,12 +310,16 @@ const AlbumListener = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 rounded-2xl bg-neutral-800 text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 py-1 px-4"
                 >
+                  {link.icon == LinkType.youtube && (
+                    <YoutubeIcon width={20}></YoutubeIcon>
+                  )}
                   {link.icon == LinkType.youtubeMusic && (
                     <YoutubeMusic width={20}></YoutubeMusic>
                   )}
                   {link.icon == LinkType.spotify && (
                     <Spotify width={20}></Spotify>
                   )}
+                  {link.icon == LinkType.youtube && "YouTube"}
                   {link.icon == LinkType.youtubeMusic && "YouTube Music"}{" "}
                   {link.icon == LinkType.spotify && "Spotify"}
                 </a>
