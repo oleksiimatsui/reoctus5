@@ -1,0 +1,9 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ]
+}
